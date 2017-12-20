@@ -1,240 +1,78 @@
-/*Napisati program koji pomocu vezanih listi (stabala) predstavlja strukturu direktorija.
-Omoguciti unos novih direktorija i pod-direktorija, ispis sadrzaja direktorija i povratak
-u prethodni direktorij. Tocnije program treba simulirati koristenje DOS naredbi:
-"md", "cd dir", "cd.." i "dir".*/
 #define _CRT_SECURE_NO_WARNINGS
-#include<stdio.h>
-#include<string.h>
-#include<stdlib.h>
-#include<conio.h>
+#include <stdio.h>
+#include <string.h>
+#include <stdlib.h>
+//#define NDEBUG
+#include <assert.h>
 
-struct direktorij;
-typedef struct direktorij dir;
-typedef struct direktorij *Node;
+#include "Direktorij.h"
+#include "Stack.h"
 
-struct SimStack;
-typedef struct SimStack *Stack;
-
-struct direktorij
+int main(int argc, char *argv[])
 {
-	char ime[10];
-	Node Next;
-	Node Child;
-};
+	char name[250], command[10], instr[20], path[100];
+	int shouldExit = 0;
+	Stack *stack = NULL;
+	Direktorij *root = NULL;
+	Direktorij *currentDir = NULL;
 
-struct SimStack
-{
-	Node Element;
-	Stack Next;
-};
+	memset(name, 0, strlen(name));
+	memset(command, 0, strlen(command));
+	memset(instr, 0, strlen(instr));
+	memset(path, 0, strlen(path));
 
-void IspisDir(Node, char *);
-Node IzadjiDir(Node, char *, Stack);
-Node UdjiDir(Node, char *, char *, Stack);
-void StvoriDir(Node, char *);
-void Push(Stack, Node);
-Node Pop(Stack);
+	root = (Direktorij*)malloc(sizeof(Direktorij));
+	assert(root);
+	strcpy(root->name, "root");
+	root->next = NULL;
+	root->child = NULL;
 
+	currentDir = root;
 
-void main()
-{
-	char instr[20], ime[10], naredba[10], path[100];
-	char *i, *j;
-	dir root;
-	struct SimStack S;
+	stack = CreateNodeStack();
+	assert(stack);
 
-	Node UpDir = &root;
-	S.Next = NULL;
-
-	printf("Unesi ime root direktorija: ");
-	scanf(" %s", root.ime);
-	root.Child = NULL;
-	root.Next = NULL;
-
-	path[0] = 0;
-	strcat(path, root.ime);
-	strcat(path, ":\\");
-
-	system("cls");
-
-	printf("Unesi naredbu:");
-	printf("\n\tdir");
-	printf("\n\tcd..");
-	printf("\n\tcd ime_dir");
-	printf("\n\tmk ime_dir");
-	printf("\n\n\texit - za kraj");
-	printf("\n\n\t");
-
-	fgets(instr, 20, stdin);
-
-	while (strcmp(naredba, "exit") != 0)
+	while (!shouldExit)
 	{
-		printf("\n\n\t%s", path);
+		printf("%s %s", path, ">> ");
+		scanf("%s %s", command, instr);
+		getchar();
 
-		memset(ime, 0, strlen(ime));
-		memset(naredba, 0, strlen(naredba));
-
-		fgets(instr, 20, stdin);
-
-		i = strchr(instr, ' ');
-
-		if (NULL == i)
+		if (strcmp(command, "exit") == 0)
+			shouldExit = 1;
+		else if (!strcmp(command, "cd"))
 		{
-			strncpy(naredba, instr, sizeof(instr));
-			j = strchr(naredba, 10);
-			*j = 0;
+			if (strcmp(instr, "..") == 0)
+			{
+				ExitDir(currentDir, path, stack);
+			}
+			else
+			{
+				EnterDir(currentDir, path, instr, stack);
+			}
+		}
+		else if (!strcmp(command, "mkdir"))
+		{
+			CreateDir(currentDir, instr);
+		}
+		else if (!strcmp(command, "dir"))
+		{
+			PrintDir(currentDir);
 		}
 		else
 		{
-			strncpy(naredba, instr, i - instr);
-			naredba[i - instr] = 0;
-			strcpy(ime, i + 1);
+			printf("Wrong input!\n");
 		}
 
-		if (strcmp(naredba, "dir") == 0)
-			IspisDir(UpDir, path);
-		else if (strcmp(naredba, "cd..") == 0)
-			UpDir = IzadjiDir(UpDir, path, &S);
-		else if (strcmp(naredba, "cd") == 0)
-			if (ime[0] == 0)
-				printf("Greska u sintaksi naredbe!\n Treba biti: cd ime_dir");
-			else
-				UpDir = UdjiDir(UpDir, ime, path, &S);
-		else if (strcmp(naredba, "mk") == 0)
-			if (ime[0] == 0)
-				printf("Greska u sintaksi naredbe!\n Treba biti: mk ime_dir");
-			else
-				StvoriDir(UpDir, ime);
-		else if (strcmp(naredba, "exit") != 0)
-			printf("\nPogresan unos!!\n");
-
+		memset(command, 0, strlen(command));
+		memset(instr, 0, strlen(instr));
+		printf("\n");
 	}
 
-}
-
-
-void IspisDir(Node N, char * path)
-{
-	int i = 0;
-	printf("\nDirectory of %s", path);
-
-	N = N->Child;
-	while (N != NULL)
-	{
-		printf("\n\t\t %s", N->ime);
-		N = N->Next;
-		i++;
-	}
-
-	printf("\n\t\t %d Dir(s)", i);
-
-
-}
-
-
-Node IzadjiDir(Node N, char *path, Stack S)
-{
-	Node temp;
-	char *a;
-
-	temp = Pop(S);
-	if (NULL == temp)
-	{
-		printf("Nalazimo se u root direktoriju!\nIz njega se ne moze izaci!");
-		return N;
-	}
-	else
-	{
-		a = strrchr(path, '\\');
-		*a = 0;
-
-		a = strrchr(path, '\\');
-		*(a + 1) = 0;
-
-		return temp;
-	}
-}
-
-
-Node UdjiDir(Node N, char *ime, char *path, Stack S)
-{
-	Node temp = N->Child;
-	char *a;
-
-
-	while (temp != NULL && strcmp(temp->ime, ime) != 0)
-		temp = temp->Next;
-	if (NULL == temp)
-		printf("\n Ne postoji pod-direktorij s tim imenom!!!");
-	else
-	{
-		Push(S, N);
-		strcat(path, temp->ime);
-		a = strchr(path, 10);
-		*a = '\\';
-		return temp;
-	}
-
-	return N;
-}
-
-
-void StvoriDir(Node N, char *ime)
-{
-	Node q;
-
-	q = (Node)malloc(sizeof(dir));
-	q->Child = NULL;
-	q->Next = NULL;
-
-	strcpy(q->ime, ime);
-
-	if (NULL == q)
-		printf("\nGreska u alokaciji memorije!!");
-	else
-	{
-		if (NULL == N->Child)
-			N->Child = q;
-		else
-		{
-			q->Next = N->Child;
-			N->Child = q;
-		}
-	}
-}
-
-void Push(Stack S, Node T)
-{
-	Stack q;
-
-	q = (Stack)malloc(sizeof(struct SimStack));
-
-	if (q == NULL)
-		printf("\nGreska kod alokacije memorije!!");
-	else
-	{
-		q->Element = T;
-		q->Next = S->Next;
-
-		S->Next = q;
-	}
-}
-
-
-Node Pop(Stack S)
-{
-	Node q;
-	Stack temp;
-
-	if (NULL == S->Next)
-		return NULL;
-	else
-	{
-		q = S->Next->Element;
-		temp = S->Next;
-		S->Next = temp->Next;
-
-		free(temp);
-		return q;
-	}
+	printf("%s\n", root->name);
+	
+	free(stack);
+	free(root);
+	getchar();
+	return 0;
 }

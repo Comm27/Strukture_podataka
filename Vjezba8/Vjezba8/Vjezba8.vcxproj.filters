@@ -16,7 +16,21 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Source.c">
-      <Filter>Header Files</Filter>
+      <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="Direktorij.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Stack.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="Direktorij.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Stack.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>
