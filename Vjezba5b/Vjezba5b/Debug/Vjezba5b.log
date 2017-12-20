@@ -1,0 +1,5 @@
+﻿  Stack.c
+  Source.c
+c:\users\comm2\desktop\strukture podataka\vjezba5b\vjezba5b\source.c(20): warning C4013: 'free' undefined; assuming extern returning int
+  Generating Code...
+  Vjezba5b.vcxproj -> C:\Users\comm2\Desktop\Strukture podataka\Vjezba5b\Debug\Vjezba5b.exe

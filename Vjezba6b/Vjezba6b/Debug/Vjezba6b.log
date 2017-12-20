@@ -1,0 +1,5 @@
+﻿  Source.c
+c:\users\comm2\desktop\strukture podataka\vjezba6b\vjezba6b\source.c(21): warning C4013: 'free' undefined; assuming extern returning int
+  Queue.c
+  Generating Code...
+  Vjezba6b.vcxproj -> C:\Users\comm2\Desktop\Strukture podataka\Vjezba6b\Debug\Vjezba6b.exe
