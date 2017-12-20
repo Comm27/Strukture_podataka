@@ -5,14 +5,16 @@
 // #define NDEBUG
 #include <assert.h>
 #include <string.h>
-//#include "ErrorHandler.h"
+#include "ErrorHandler.h"
+
+#define BUFFER_MAX_LENGTH 250
 
 typedef enum _pos {BEFORE, AFTER} pos;
 
 typedef struct _Osoba
 {
-	char mIme[50];
-	char mPrezime[50];
+	char mIme[BUFFER_MAX_LENGTH];
+	char mPrezime[BUFFER_MAX_LENGTH];
 	int mGodRod;
 	struct _Osoba *next;
 }
@@ -21,8 +23,11 @@ Osoba;
 Osoba* CreateNode(int define);
 int DefineObj(Osoba *);
 
-int AddFirst(Osoba *);
-int AddLast(Osoba *);
+int AddFirst(Osoba *header);
+int AddLast(Osoba *header);
+
+int AddFirstNode(Osoba *header, Osoba *node);
+int AddLastNode(Osoba *header, Osoba *node);
 
 int Print(Osoba *);
 
@@ -36,5 +41,7 @@ int InsertAfter(Osoba *, const char *);
 
 int RemoveNode(Osoba *, const char *);
 
-int WriteToFile(Osoba *, const char *);
-int ReadFromFile(Osoba *, const char *);
+int WriteToFile(Osoba *header, const char *filePath);
+int ReadFromFile(Osoba *header, const char *filePath);
+
+int SortList(Osoba *header);

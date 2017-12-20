@@ -5,20 +5,24 @@
 #include <assert.h>
 
 #include "Osoba.h"
+#include "../../libs/mylibs/textmanip.h"
 
 void Izbornik(Osoba *);
 
 int main(int argc, char *argv[])
 {
+	
 	Osoba *header = CreateNode(0);
 	int i = 0;
 	assert(header);
 
 	Izbornik(header);
 
-	getchar();
-
 	free(header);
+
+	
+	getchar();
+	getchar();
 	return 0;
 }
 
@@ -96,15 +100,16 @@ void Izbornik(Osoba *header)
 		case 9:
 			printf("Unesite ime file-a: ");
 			scanf("%s", filePath);
-			//WriteToFile(header, filePath);
+			WriteToFile(header, filePath);
 			break;
 		case 10:
 			printf("Unesite ime file-a: ");
 			scanf("%s", filePath);
-			//ReadFromFile(header, prezime);
+			ReadFromFile(header, filePath);
 			break;
 		case 11:
-			//SortList(header);
+			ans = SortList(header);
+			printf("Izvrsio se %d puta.\n", ans);
 			break;
 		case 12:
 			Print(header);

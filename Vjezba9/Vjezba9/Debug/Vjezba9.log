@@ -1,0 +1,9 @@
+﻿  Source.c
+c:\users\comm2\desktop\strukture podataka\vjezba9\vjezba9\source.c(32): warning C4013: 'free' undefined; assuming extern returning int
+  BST.c
+  Generating Code...
+c:\users\comm2\desktop\strukture podataka\vjezba9\vjezba9\bst.c(29): warning C4715: 'Find': not all control paths return a value
+c:\users\comm2\desktop\strukture podataka\vjezba9\vjezba9\bst.c(36): warning C4715: 'FindMin': not all control paths return a value
+c:\users\comm2\desktop\strukture podataka\vjezba9\vjezba9\bst.c(43): warning C4715: 'FindMax': not all control paths return a value
+c:\users\comm2\desktop\strukture podataka\vjezba9\vjezba9\bst.c(90): warning C4715: 'DeleteA': not all control paths return a value
+  Vjezba9.vcxproj -> C:\Users\comm2\Desktop\Strukture podataka\Vjezba9\Debug\Vjezba9.exe

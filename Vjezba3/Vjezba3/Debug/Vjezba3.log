@@ -1,2 +1,5 @@
 ﻿  Source.c
-  Vjezba3.vcxproj -> C:\Users\comm2\Desktop\Strukture podataka\Vjezba3\Debug\Vjezba3.exe
+  Osoba.c
+  Generating Code...
+Source.obj : error LNK2005: _ErrorHandler already defined in Osoba.obj
+C:\Users\comm2\Desktop\Strukture podataka\Vjezba3\Debug\Vjezba3.exe : fatal error LNK1169: one or more multiply defined symbols found

@@ -1,0 +1,13 @@
+1. Dodaj element na pocetak
+2. Dodaj element na kraj
+3. Pronadi element prije _____
+4. Pronadi element
+5. Pronadi element iza _____
+6. Umetni ispred elementa _____
+7. Umetni iza elementa _____
+8. Izbrisi element
+9. Ispisi listu u file
+10. Unesi listu iz file-a
+11. Sortiraj listu(po prezimenu)
+12. Ispisi listu
+13. Izlaz iz programa
