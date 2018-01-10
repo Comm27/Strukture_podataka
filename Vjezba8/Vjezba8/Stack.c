@@ -8,13 +8,13 @@ int IsEmpty(Stack * header)
 	return 0;
 }
 
-Stack* CreateNodeStack()
+Stack* CreateNode()
 {
 	Stack *node = NULL;
 	node = (Stack*)malloc(sizeof(Stack));
 	if (node == NULL)
 	{
-		//ErrorHandler(ALLOC_FAILED, "CreateNodeStack");
+		//ErrorHandler(ALLOC_FAILED, "CreateNode");
 		return NULL;
 	}
 
@@ -22,15 +22,15 @@ Stack* CreateNodeStack()
 	return node;
 }
 
-int Push(Stack * header, struct _Direktorij *x)
+int Push(Stack * header, Directory *dir)
 {
 	Stack *node = NULL;
 
-	node = CreateNodeStack();
+	node = CreateNode();
 	if (node == NULL)
 		return -1;
 
-	node->mDir = x;
+	node->dir = dir;
 
 	node->next = header->next;
 	header->next = node;

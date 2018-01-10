@@ -1,2 +1,7 @@
-﻿  Source.c
+﻿  Stack.c
+  Source.c
+  Directory.c
+c:\users\comm2\desktop\strukture podataka\vjezba8\vjezba8\directory.c(7): warning C4028: formal parameter 1 different from declaration
+c:\users\comm2\desktop\strukture podataka\vjezba8\vjezba8\directory.c(30): warning C4090: 'function': different 'const' qualifiers
+  Generating Code...
   Vjezba8.vcxproj -> C:\Users\comm2\Desktop\Strukture podataka\Vjezba8\Debug\Vjezba8.exe

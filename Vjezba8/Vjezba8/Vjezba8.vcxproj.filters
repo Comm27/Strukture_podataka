@@ -15,10 +15,10 @@
     </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="Source.c">
+    <ClCompile Include="Directory.c">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="Direktorij.c">
+    <ClCompile Include="Source.c">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="Stack.c">
@@ -26,7 +26,7 @@
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="Direktorij.h">
+    <ClInclude Include="Directory.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="Stack.h">

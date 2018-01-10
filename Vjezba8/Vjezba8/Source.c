@@ -1,78 +1,80 @@
-#define _CRT_SECURE_NO_WARNINGS
 #include <stdio.h>
 #include <string.h>
 #include <stdlib.h>
-//#define NDEBUG
 #include <assert.h>
 
-#include "Direktorij.h"
+#include "Directory.h"
 #include "Stack.h"
 
 int main(int argc, char *argv[])
 {
-	char name[250], command[10], instr[20], path[100];
-	int shouldExit = 0;
+	Directory *rootDir = NULL;
+	Directory *currentDir = NULL, *tempDir = NULL;
 	Stack *stack = NULL;
-	Direktorij *root = NULL;
-	Direktorij *currentDir = NULL;
 
-	memset(name, 0, strlen(name));
-	memset(command, 0, strlen(command));
-	memset(instr, 0, strlen(instr));
-	memset(path, 0, strlen(path));
+	char command[10], argument[100];
 
-	root = (Direktorij*)malloc(sizeof(Direktorij));
-	assert(root);
-	strcpy(root->name, "root");
-	root->next = NULL;
-	root->child = NULL;
+	rootDir = CreateDirectoryNode("root");
+	currentDir = rootDir;
+	stack = CreateNode();
 
-	currentDir = root;
 
-	stack = CreateNodeStack();
-	assert(stack);
-
-	while (!shouldExit)
+	while (1)
 	{
-		printf("%s %s", path, ">> ");
-		scanf("%s %s", command, instr);
-		getchar();
+		memset(command, 0, 10);
+		memset(argument, 0, 100);
+		printf("%s >>", currentDir->filePath);
+		scanf("%s %s", command, argument);
 
 		if (strcmp(command, "exit") == 0)
-			shouldExit = 1;
-		else if (!strcmp(command, "cd"))
+			break;
+		else if (strcmp(command, "cd") == 0)
 		{
-			if (strcmp(instr, "..") == 0)
+			if (strcmp(argument, "..") == 0)
 			{
-				ExitDir(currentDir, path, stack);
+				if (Top(stack) == NULL)
+				{
+					printf("Stack is empty! You are in root folder!\n");
+					continue;
+				}
+				currentDir = Top(stack)->dir;
+				Pop(stack);
 			}
 			else
 			{
-				EnterDir(currentDir, path, instr, stack);
+				tempDir = ChangeDirectory(currentDir, argument);
+				if (tempDir == NULL)
+					printf("No such directory exists!\n");
+				else
+				{
+					Push(stack, currentDir);
+					currentDir = tempDir;
+				}
 			}
 		}
 		else if (!strcmp(command, "mkdir"))
 		{
-			CreateDir(currentDir, instr);
+			if (AddDirectory(currentDir, argument) < 0)
+			{
+				printf("Could not allocate new memory block!\n");
+			}
 		}
-		else if (!strcmp(command, "dir"))
+		else if (strcmp(command, "ls") == 0)
 		{
-			PrintDir(currentDir);
+			PrintDirectories(currentDir);
+		}
+		else if (strcmp(command, "pwd") == 0)
+		{
+			printf("%s\n", currentDir->filePath);
 		}
 		else
 		{
-			printf("Wrong input!\n");
+			printf("No such command exists!\n");
 		}
-
-		memset(command, 0, strlen(command));
-		memset(instr, 0, strlen(instr));
-		printf("\n");
 	}
 
-	printf("%s\n", root->name);
-	
 	free(stack);
-	free(root);
-	getchar();
+	free(rootDir);
+
 	return 0;
 }

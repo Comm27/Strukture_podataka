@@ -1,17 +1,14 @@
 #pragma once
-#include "Direktorij.h"
-
-typedef struct _Direktorij Dirktorij;
+#include "Directory.h"
 
 typedef struct _Stack
 {
-	struct _Direktorij *mDir;
+	Directory *dir;
 	struct _Stack *next;
 }Stack;
 
 int IsEmpty(Stack *header);
-Stack* CreateNodeStack();
-int Push(Stack *header, struct _Direktorij *x);
+Stack* CreateNode();
+int Push(Stack *header, Directory *dir);
 int Pop(Stack *header);
-
 Stack* Top(Stack *header);
